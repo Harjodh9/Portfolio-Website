@@ -33,6 +33,80 @@
 :root[data-theme="light"] { color-scheme: light; }
 :root[data-theme="dark"]  { color-scheme: dark; }
 
+/* ---------- Other palettes ----------
+   Slate is the default (above). Switch by changing <html data-palette="...">
+   in index.html, or preview with index.html?palette=crimson in the address bar. */
+:root[data-palette="teal"] {
+  --bg: light-dark(#F7FAFA, #0B0F14);
+  --bg-alt: light-dark(#EDF4F3, #0D131B);
+  --surface: light-dark(#FFFFFF, #111822);
+  --surface-2: light-dark(#E4EEEC, #172131);
+  --border: light-dark(#D2E0DE, #223045);
+  --border-strong: light-dark(#B4C8C5, #2E3F58);
+  --text: light-dark(#0E1A1F, #E8EEF5);
+  --text-muted: light-dark(#4F626A, #8A98AB);
+  --accent: light-dark(#0A7F6E, #3DE0C5);
+  --accent-2: light-dark(#0284C7, #38BDF8);
+  --on-accent: light-dark(#FFFFFF, #06201B);
+  --success: light-dark(#15803D, #4ADE80);
+}
+:root[data-palette="violet"] {
+  --bg: light-dark(#FAF9FF, #0A0A12);
+  --bg-alt: light-dark(#F1EFFC, #0E0E1A);
+  --surface: light-dark(#FFFFFF, #131325);
+  --surface-2: light-dark(#EAE7FA, #1B1B34);
+  --border: light-dark(#DAD6F2, #2A2A4A);
+  --border-strong: light-dark(#BEB8E6, #3B3B66);
+  --text: light-dark(#14122B, #EEEDFB);
+  --text-muted: light-dark(#5A5777, #9A98B8);
+  --accent: light-dark(#5B3FD6, #A78BFA);
+  --accent-2: light-dark(#818CF8, #6366F1);
+  --on-accent: light-dark(#FFFFFF, #130F2E);
+  --success: light-dark(#15803D, #4ADE80);
+}
+:root[data-palette="crimson"] {
+  --bg: light-dark(#FFF9FA, #0C0809);
+  --bg-alt: light-dark(#FDF0F2, #120B0D);
+  --surface: light-dark(#FFFFFF, #1A1013);
+  --surface-2: light-dark(#FAE6EA, #24161A);
+  --border: light-dark(#F0D2D8, #3A2228);
+  --border-strong: light-dark(#E2B3BD, #52303A);
+  --text: light-dark(#22090F, #F8EEF0);
+  --text-muted: light-dark(#7A525B, #B39AA0);
+  --accent: light-dark(#BE123C, #FB5C77);
+  --accent-2: light-dark(#F43F5E, #BE123C);
+  --on-accent: light-dark(#FFFFFF, #1F060C);
+  --success: light-dark(#15803D, #4ADE80);
+}
+:root[data-palette="navy"] {
+  --bg: light-dark(#F7F9FC, #0A1220);
+  --bg-alt: light-dark(#EEF2F8, #0D1729);
+  --surface: light-dark(#FFFFFF, #121E33);
+  --surface-2: light-dark(#E5ECF6, #1A2A45);
+  --border: light-dark(#D3DDEB, #253756);
+  --border-strong: light-dark(#B4C4DB, #35507A);
+  --text: light-dark(#0B1B33, #EAF0F9);
+  --text-muted: light-dark(#51627C, #8EA0BD);
+  --accent: light-dark(#1D4ED8, #60A5FA);
+  --accent-2: light-dark(#0D9488, #2DD4BF);
+  --on-accent: light-dark(#FFFFFF, #0A1730);
+  --success: light-dark(#15803D, #4ADE80);
+}
+:root[data-palette="burgundy"] {
+  --bg: light-dark(#FAF8F6, #0B0B0C);
+  --bg-alt: light-dark(#F2EEEA, #101011);
+  --surface: light-dark(#FFFFFF, #171718);
+  --surface-2: light-dark(#EDE7E2, #212123);
+  --border: light-dark(#DDD4CD, #2E2E31);
+  --border-strong: light-dark(#C2B5AB, #424247);
+  --text: light-dark(#1A1416, #F2F0EE);
+  --text-muted: light-dark(#6A5E60, #A09C98);
+  --accent: light-dark(#8B1E3F, #C75B73);
+  --accent-2: light-dark(#B4536B, #7F1D2D);
+  --on-accent: light-dark(#FFFFFF, #1A0A0E);
+  --success: light-dark(#15803D, #4ADE80);
+}
+
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -105,11 +179,17 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 .logo {
+  --logo-pad-y: 7px;   /* gap between the letters and the electric border */
+  --logo-pad-x: 13px;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--logo-pad-y) var(--logo-pad-x);
   font: 700 1.625rem/1 var(--font-display);
   letter-spacing: -.02em;
   text-decoration: none;
 }
-.logo span { color: var(--accent); }
+.logo-text { position: relative; z-index: 1; }
+.logo-text span { color: var(--accent); }
 
 .nav-links { display: flex; gap: 36px; }
 .nav-links a {
@@ -140,7 +220,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   padding: 0;
   background: var(--surface-2);
   border: 1px solid var(--border-strong);
-  border-radius: 999px;
+  border-radius: 12px;
 }
 .theme-toggle .knob {
   position: absolute;
@@ -152,7 +232,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   height: calc(var(--th) - 8px);
   background: var(--accent);
   color: var(--on-accent);
-  border-radius: 50%;
+  border-radius: 9px;   /* 12px outer radius minus the 3px inset */
   transition: transform .2s ease;
 }
 :root[data-theme="dark"] .theme-toggle .knob { transform: translateX(calc(var(--tw) - var(--th))); }
@@ -243,7 +323,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
   padding-block: clamp(64px, 8vw, 96px);
   border-top: 1px solid var(--border);
 }
-.section--alt { background: var(--bg-alt); }
 
 .section-head { margin-bottom: 48px; }
 .section-head--split {
@@ -337,6 +416,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border-radius: 50%;
 }
 
+.more-grid { margin-top: 48px; }
+
 /* ---------- Projects carousel ---------- */
 .projects { padding-inline: 0; }
 
@@ -397,6 +478,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .project h3 { font: 700 1.5rem/1.2 var(--font-display); }
 .project p { color: var(--text-muted); font-size: .9375rem; line-height: 1.55; }
+.project-meta { margin-bottom: -6px; color: var(--text-muted); font: 400 .75rem/1.4 var(--font-mono); letter-spacing: .02em; }
+.project .tags { margin-top: auto; padding-top: 6px; }
 .project-link { margin-top: auto; color: var(--accent); font-size: .9375rem; font-weight: 600; text-decoration: none; }
 .project-link::after { content: " →"; }
 .project-link:hover { text-decoration: underline; text-underline-offset: 4px; }
@@ -419,23 +502,75 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 /* ---------- Contact ---------- */
-.contact-card {
+.contact-card .kicker { margin: 0; }
+.contact-card h2 { max-width: 14em; font-size: clamp(2.25rem, 5vw, 3.5rem); }
+.contact-lead { max-width: 32em; color: var(--text-muted); font-size: 1.125rem; }
+.contact-card .actions { margin-top: 8px; }
+
+.contact-content {
+  position: relative;
+  z-index: 1;
   display: grid;
   justify-items: center;
   gap: 24px;
   padding: clamp(40px, 7vw, 80px) var(--gutter);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 28px;
   text-align: center;
 }
+
+/* Electric border effect adapted from a CodePen by [AUTHOR NAME]: [PEN URL]
+   Changes: recolored with the palette accent, made responsive, lighter SVG filter.
+   The wobbling line is the .eb-line--main layer (SVG filter in index.html). */
+.svg-filters { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.electric-card {
+  --electric: var(--accent);
+  --electric-light: color-mix(in srgb, var(--accent) 65%, white);
+  --electric-tint: color-mix(in srgb, var(--accent) 22%, transparent);
+  position: relative;
+  border-radius: 28px;
+  background:
+    linear-gradient(-30deg, var(--electric-tint), transparent, var(--electric-tint)),
+    var(--surface);
+}
+/* No z-index here on purpose: the overlays must blend with the page behind the card */
+.eb-layers { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.eb-layers > * { position: absolute; inset: 0; border-radius: inherit; }
+
+.eb-line { border: 2px solid var(--electric); }
+.eb-line--main { filter: url(#turbulent-displace); }
+.eb-line--glow-1 { border-color: color-mix(in srgb, var(--electric) 60%, transparent); filter: blur(1px); }
+.eb-line--glow-2 { border-color: var(--electric-light); filter: blur(4px); }
+
+.eb-overlay {
+  mix-blend-mode: overlay;
+  transform: scale(1.1);
+  filter: blur(16px);
+  background: linear-gradient(-30deg, white, transparent 30%, transparent 70%, white);
+}
+.eb-overlay--2 { opacity: .5; }
+
+.eb-bg-glow {
+  z-index: -1;
+  opacity: .3;
+  transform: scale(1.1);
+  filter: blur(32px);
+  background: linear-gradient(-30deg, var(--electric-light), transparent, var(--electric));
+}
+
+/* Small version (the HS. logo): square-ish corners, tight wobble, smaller glows */
+.electric-card--sm { --electric-tint: color-mix(in srgb, var(--accent) 14%, transparent); border-radius: 12px; }
+.electric-card--sm .eb-line--main { filter: url(#turbulent-displace-sm); }
+.electric-card--sm .eb-line--glow-1 { filter: blur(.5px); }
+.electric-card--sm .eb-line--glow-2 { filter: blur(2px); }
+.electric-card--sm .eb-overlay { filter: blur(6px); transform: none; }
+.electric-card--sm .eb-bg-glow { filter: blur(10px); transform: none; opacity: .35; }
 .contact-card .kicker { margin: 0; }
 .contact-card h2 { max-width: 14em; font-size: clamp(2.25rem, 5vw, 3.5rem); }
 .contact-lead { max-width: 32em; color: var(--text-muted); font-size: 1.125rem; }
 .contact-card .actions { margin-top: 8px; }
 
 /* ---------- Footer ---------- */
-.site-footer { padding-block: 32px; background: var(--bg-alt); border-top: 1px solid var(--border); color: var(--text-muted); font-size: .875rem; }
+.site-footer { padding-block: 32px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: .875rem; }
 .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
 
 /* ---------- Responsive ---------- */
@@ -453,7 +588,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .menu-btn { display: block; }
   .nav-cta { display: none; }
   .theme-toggle { --tw: 62px; --th: 34px; }
-  .theme-toggle .knob { top: 2px; left: 2px; width: 28px; height: 28px; }
+  .theme-toggle .knob { top: 2px; left: 2px; width: 28px; height: 28px; border-radius: 10px; }
   :root[data-theme="dark"] .theme-toggle .knob { transform: translateX(28px); }
 
   .nav-links {
@@ -485,5 +620,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .eb-line--main { filter: none; }
   *, *::before, *::after { transition: none !important; }
 }

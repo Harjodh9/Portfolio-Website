@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-palette="slate">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Harjodh Singh | Mechatronics Engineer</title>
-  <meta name="description" content="Portfolio of Harjodh Singh, a mechatronics engineer and technical analyst in Muscat, Oman, working in ERP implementation, automation and technical support.">
+  <meta name="description" content="Portfolio of Harjodh Singh, a mechatronics engineer focused on automation and control, with experience in PLC programming, fault diagnosis, ERP implementation and technical support.">
 
   <!-- Apply the saved (or system) theme before first paint to avoid a flash -->
   <script>
@@ -15,6 +15,12 @@
           t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
         document.documentElement.dataset.theme = t;
+
+        // Preview another palette with ?palette=crimson (slate, teal, violet, crimson, navy, burgundy)
+        var p = new URLSearchParams(window.location.search).get('palette');
+        if (['slate', 'teal', 'violet', 'crimson', 'navy', 'burgundy'].indexOf(p) > -1) {
+          document.documentElement.dataset.palette = p;
+        }
       } catch (e) {}
     })();
   </script>
@@ -27,9 +33,89 @@
 </head>
 <body>
 
+  <!-- Electric border effect adapted from a CodePen by [AUTHOR NAME]: [PEN URL]
+       Recolored to the site palette and made responsive. See index.css for the styles. -->
+
+  <!-- Filter for the contact card's electric border (index.css, .eb-line--main) -->
+  <svg class="svg-filters svg-filters--card" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="turbulent-displace" color-interpolation-filters="sRGB" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" result="noise1" seed="1" />
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise1">
+          <animate attributeName="dy" values="700; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" result="noise2" seed="1" />
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise2">
+          <animate attributeName="dy" values="0; -700" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" result="noise1" seed="2" />
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise3">
+          <animate attributeName="dx" values="490; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" result="noise2" seed="2" />
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise4">
+          <animate attributeName="dx" values="0; -490" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feComposite in="offsetNoise1" in2="offsetNoise2" result="part1" />
+        <feComposite in="offsetNoise3" in2="offsetNoise4" result="part2" />
+        <feBlend in="part1" in2="part2" mode="color-dodge" result="combinedNoise" />
+
+        <feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="24" xChannelSelector="R" yChannelSelector="B" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Tighter version of the same filter for the small HS. logo (index.css, .electric-card--sm) -->
+  <svg class="svg-filters svg-filters--logo" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="turbulent-displace-sm" color-interpolation-filters="sRGB" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="turbulence" baseFrequency="0.06" numOctaves="3" result="noise1" seed="1" />
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise1">
+          <animate attributeName="dy" values="250; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.06" numOctaves="3" result="noise2" seed="1" />
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise2">
+          <animate attributeName="dy" values="0; -250" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.06" numOctaves="3" result="noise1" seed="2" />
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise3">
+          <animate attributeName="dx" values="180; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.06" numOctaves="3" result="noise2" seed="2" />
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise4">
+          <animate attributeName="dx" values="0; -180" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feComposite in="offsetNoise1" in2="offsetNoise2" result="part1" />
+        <feComposite in="offsetNoise3" in2="offsetNoise4" result="part2" />
+        <feBlend in="part1" in2="part2" mode="color-dodge" result="combinedNoise" />
+
+        <feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="4" xChannelSelector="R" yChannelSelector="B" />
+      </filter>
+    </defs>
+  </svg>
+
+
   <header class="site-header">
     <div class="container nav">
-      <a class="logo" href="#top" aria-label="Harjodh Singh, back to top">HS<span>.</span></a>
+      <a class="logo electric-card electric-card--sm" href="#top" aria-label="Harjodh Singh, back to top">
+        <span class="eb-layers" aria-hidden="true">
+          <span class="eb-bg-glow"></span>
+          <span class="eb-overlay eb-overlay--1"></span>
+          <span class="eb-overlay eb-overlay--2"></span>
+          <span class="eb-line eb-line--glow-2"></span>
+          <span class="eb-line eb-line--glow-1"></span>
+          <span class="eb-line eb-line--main"></span>
+        </span>
+        <span class="logo-text">HS<span>.</span></span>
+      </a>
 
       <nav id="site-nav" class="nav-links" aria-label="Primary">
         <a href="#about">About</a>
@@ -62,7 +148,7 @@
         <div class="hero-copy">
           <p class="eyebrow">Hello, I’m Harjodh Singh</p>
           <h1>Engineering that <span class="accent">connects</span> machines, software &amp; people.</h1>
-          <p class="lead">Technical analyst and mechatronics engineer with hands-on experience in software systems, ERP implementation, automation and technical support. I turn technical problems into systems that work.</p>
+          <p class="lead">Mechatronics engineer focused on automation and control. Skilled in PLC programming, fault diagnosis and system troubleshooting across automotive, industrial and software-based systems.</p>
           <div class="actions">
             <a class="btn btn--primary" href="#projects">View projects</a>
             <!-- TODO: point this at your CV, e.g. href="assets/Harjodh-Singh-CV.pdf" -->
@@ -79,8 +165,8 @@
           </div>
           <dl class="specs">
             <div><dt>Location</dt><dd>Muscat, Oman</dd></div>
-            <div><dt>Education</dt><dd>Mechatronics Engineering</dd></div>
-            <div><dt>Stack</dt><dd>Python, C/C++, Odoo</dd></div>
+            <div><dt>Education</dt><dd>B.E. Mechatronics Engineering</dd></div>
+            <div><dt>Focus</dt><dd>Automation &amp; control</dd></div>
             <div><dt>Status</dt><dd><span class="status-dot" aria-hidden="true"></span>Open to opportunities</dd></div>
           </dl>
         </aside>
@@ -97,20 +183,20 @@
         <div class="about-grid">
           <div class="about-copy">
             <p class="about-lead">I’m a Mechatronics Engineering graduate based in Muscat, Oman, working where engineering meets business technology.</p>
-            <p>Technical Analyst with hands-on experience in software systems, embedded programming, automation, and technical support. Proficient in software development, system analysis, Excel reporting, and documentation, with exposure to ERP systems, chatbots, and hardware-software integration. Seeking a role in software, embedded systems, or automation, to leverage my skills while contributing to impactful projects.</p>
+            <p>Mechatronics engineer seeking an opportunity in automation and control roles. Skilled in PLC programming, with a background in fault diagnosis, system troubleshooting and technical documentation across automotive, industrial and software-based systems. Experience in system configuration, client onboarding and post-deployment support for 40+ companies, plus hands-on work with sensors, robotics and CNC machining.</p>
             <p>I enjoy turning messy, real-world problems into systems that work, whether that’s a configuration, a script or a conversation with a client.</p>
           </div>
           <ul class="facts">
             <li><span>Based in</span><strong>Muscat, Oman</strong></li>
-            <li><span>Education</span><strong>Mechatronics Engineering</strong></li>
-            <li><span>Core tools</span><strong>Odoo, WhatsApp API, Python</strong></li>
+            <li><span>Education</span><strong>B.E. Mechatronics Engineering</strong></li>
+            <li><span>Core tools</span><strong>PLC, Python, Odoo ERP</strong></li>
           </ul>
         </div>
       </div>
     </section>
 
     <!-- SKILLS -->
-    <section id="skills" class="section section--alt">
+    <section id="skills" class="section">
       <div class="container">
         <header class="section-head">
           <p class="kicker">Skills</p>
@@ -118,17 +204,16 @@
         </header>
         <div class="skill-grid">
           <article class="skill-card">
-            <h3>Programming &amp; Software</h3>
+            <h3>Automation &amp; Control</h3>
             <ul class="chips">
-              <li>C / C++</li><li>Python</li><li>HTML</li><li>CSS</li>
-              <li>PLC Programming</li><li>Machine Learning</li><li>IoT Fundamentals</li><li>ETL Systems</li>
+              <li>PLC Programming</li><li>Sensors</li><li>IoT Fundamentals</li>
             </ul>
           </article>
           <article class="skill-card">
             <h3>Tools &amp; Platforms</h3>
             <ul class="chips">
-              <li>Microsoft Excel</li><li>Microsoft Word</li><li>Odoo ERP</li><li>Fusion 360</li>
-              <li>CNC Programming</li><li>SolidWorks</li><li>Ultimaker Cura</li>
+              <li>Python</li><li>C/C++</li><li>Microsoft Office</li><li>Odoo ERP</li>
+              <li>Fusion 360</li><li>SolidWorks</li><li>CNC Programming</li><li>Ultimaker Cura</li>
             </ul>
           </article>
           <article class="skill-card">
@@ -151,27 +236,56 @@
         </header>
         <div class="timeline">
           <article class="job">
-            <!-- TODO: add real dates -->
-            <p class="job-dates">20XX – 20XX</p>
+            <p class="job-dates">May 2025 – May 2026</p>
             <div class="job-card">
               <h3>Technical Analyst</h3>
-              <p class="job-org">Adz Network Media · Marketing, Communication &amp; IT Consultancy</p>
+              <p class="job-org">Adz Network Media · Muscat, Oman</p>
               <ul>
-                <li>Managed the WhatsApp Business API product</li>
-                <li>Delivered client demos and training sessions</li>
-                <li>Prepared proposals and handled account management</li>
-                <li>Provided technical support to clients</li>
+                <li>Monitored system behavior and usage across Meta tools and WhatsApp Business API platforms to support stability, performance and issue resolution</li>
+                <li>Reviewed chatbot automation logic and workflows to improve response handling and reduce manual effort</li>
+                <li>Analyzed logs, system behavior and feedback to identify issues and support troubleshooting</li>
+                <li>Supported client onboarding, system configuration and post-deployment technical support for 40+ companies</li>
+                <li>Prepared user guides, training documents and internal technical documentation</li>
+                <li>Maintained structured documentation for configurations, workflows and operational tracking</li>
               </ul>
             </div>
           </article>
           <article class="job">
-            <p class="job-dates">20XX – Present</p>
+            <p class="job-dates">Jan 2025</p>
             <div class="job-card">
-              <h3>Freelance Engineer</h3>
-              <p class="job-org">Self-employed</p>
+              <h3>Freelance Consultant</h3>
+              <p class="job-org">IFM · Muscat, Oman</p>
               <ul>
-                <li>Odoo ERP implementation and configuration</li>
-                <li>Automotive diagnostics and fault-finding</li>
+                <li>Implemented and configured Odoo ERP, including core modules such as the Accounting Suite, streamlining operational workflows</li>
+                <li>Deployed and managed a cloud-hosted Odoo environment using Zrok, enabling secure remote access and multi-user collaboration without traditional hosting costs</li>
+                <li>Ran hands-on user training sessions to support platform adoption</li>
+                <li>Provided ongoing support and customization to fit client-specific business needs</li>
+              </ul>
+            </div>
+          </article>
+          <article class="job">
+            <p class="job-dates">Nov 2024 – Mar 2025</p>
+            <div class="job-card">
+              <h3>Technical Support Assistant</h3>
+              <p class="job-org">Shining Day LLC · Muscat, Oman</p>
+              <ul>
+                <li>Ran diagnostics on vehicle onboard computer systems using OBD-II scanners and specialized tools to identify engine performance, electrical and sensor faults</li>
+                <li>Interpreted diagnostic codes and system data to assist troubleshooting, repairs and maintenance recommendations</li>
+                <li>Gave customers and technicians clear assessments of vehicle issues and suggested service actions</li>
+              </ul>
+            </div>
+          </article>
+          <article class="job">
+            <p class="job-dates">Jan 2024 – May 2024</p>
+            <div class="job-card">
+              <h3>Mechatronics Engineer</h3>
+              <p class="job-org">Chitkara University · Punjab, India</p>
+              <ul>
+                <li>Cast a cylindrical aluminum piece using an electric furnace, then machined mold pieces to given measurements</li>
+                <li>Used a CNC lathe to cut the given design into two mold pieces</li>
+                <li>Designed a screw jack in Fusion 360 and 3D printed its parts using Ultimaker Cura</li>
+                <li>Applied aerial robotics to design, calibrate and operate drones</li>
+                <li>Applied mobile robotics to map, navigate and operate a TurtleBot</li>
               </ul>
             </div>
           </article>
@@ -180,7 +294,7 @@
     </section>
 
     <!-- PROJECTS (carousel) -->
-    <section id="projects" class="section section--alt projects">
+    <section id="projects" class="section projects">
       <div class="container">
         <header class="section-head section-head--split">
           <div>
@@ -204,56 +318,55 @@
         <article class="project">
           <div class="project-media" aria-hidden="true"></div>
           <div class="project-body">
-            <ul class="tags"><li>Odoo</li><li>ERP</li></ul>
+            <p class="project-meta">Adz Network Media<br>May 2025 – May 2026</p>
+            <h3>WhatsApp Business API Platform Support</h3>
+            <p>Onboarded, configured and supported 40+ companies on the WhatsApp Business API, reviewed chatbot workflows and wrote the user guides.</p>
+            <ul class="tags"><li>Troubleshooting</li><li>Documentation</li><li>Software training</li><li>Client support</li></ul>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-media" aria-hidden="true"></div>
+          <div class="project-body">
+            <p class="project-meta">IFM<br>Jan 2025</p>
             <h3>Odoo ERP Implementation</h3>
-            <p>Configuring and deploying Odoo ERP modules to streamline day-to-day business operations.</p>
-            <a class="project-link" href="#">View case study</a>
+            <p>Configured Odoo ERP with core modules including Accounting, deployed a cloud-hosted instance using Zrok for secure remote multi-user access, and trained staff.</p>
+            <ul class="tags"><li>ERP configuration</li><li>Deployment</li><li>User training</li></ul>
           </div>
         </article>
         <article class="project">
           <div class="project-media" aria-hidden="true"></div>
           <div class="project-body">
-            <ul class="tags"><li>WhatsApp API</li><li>Automation</li></ul>
-            <h3>WhatsApp Business API</h3>
-            <p>Client-facing messaging solutions, from demos and onboarding through to ongoing technical support.</p>
-            <a class="project-link" href="#">View case study</a>
+            <p class="project-meta">Chitkara University<br>Feb – Mar 2024</p>
+            <h3>Biometric Identification Lock System</h3>
+            <p>An access-control lock that opens only after successful biometric verification. A microcontroller reads the sensor and drives the locking mechanism.</p>
+            <ul class="tags"><li>Embedded C/C++</li><li>Sensor interfacing</li><li>Microcontrollers</li></ul>
           </div>
         </article>
         <article class="project">
           <div class="project-media" aria-hidden="true"></div>
           <div class="project-body">
-            <ul class="tags"><li>Diagnostics</li><li>Troubleshooting</li></ul>
-            <h3>Automotive Diagnostics</h3>
-            <p>Fault-finding and diagnostics on vehicle systems, from symptom to root cause.</p>
-            <a class="project-link" href="#">View case study</a>
-          </div>
-        </article>
-        <!-- TODO: replace the three placeholders below with real projects -->
-        <article class="project">
-          <div class="project-media" aria-hidden="true"></div>
-          <div class="project-body">
-            <ul class="tags"><li>Tech</li><li>Tool</li></ul>
-            <h3>Project title 04</h3>
-            <p>A short summary of the problem, your approach and the result.</p>
-            <a class="project-link" href="#">View case study</a>
+            <p class="project-meta">Chitkara University<br>Sep – Nov 2023</p>
+            <h3>Hybrid Manipulator Color Sorting Robotic Arm</h3>
+            <p>A robotic arm that detects an object’s color with a sensor and sorts it into the right position, combining sensing, actuator control and programming.</p>
+            <ul class="tags"><li>Robotics</li><li>Sensors</li><li>Control programming</li></ul>
           </div>
         </article>
         <article class="project">
           <div class="project-media" aria-hidden="true"></div>
           <div class="project-body">
-            <ul class="tags"><li>Tech</li><li>Tool</li></ul>
-            <h3>Project title 05</h3>
-            <p>A short summary of the problem, your approach and the result.</p>
-            <a class="project-link" href="#">View case study</a>
+            <p class="project-meta">Chitkara University<br>Feb – Apr 2023</p>
+            <h3>Obstacle Avoiding Line Following Robot</h3>
+            <p>A mobile robot that follows a marked path and avoids obstacles in real time using sensor feedback.</p>
+            <ul class="tags"><li>Sensors</li><li>Motor control</li><li>Microcontrollers</li></ul>
           </div>
         </article>
         <article class="project">
           <div class="project-media" aria-hidden="true"></div>
           <div class="project-body">
-            <ul class="tags"><li>Tech</li><li>Tool</li></ul>
-            <h3>Project title 06</h3>
-            <p>A short summary of the problem, your approach and the result.</p>
-            <a class="project-link" href="#">View case study</a>
+            <p class="project-meta">Personal project<br>Jan 2026 – Present</p>
+            <h3>Technical Portfolio Website</h3>
+            <p>A responsive portfolio built from scratch in HTML, CSS and JavaScript, with light and dark themes and a projects carousel, version-controlled on GitHub.</p>
+            <ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>GitHub</li></ul>
           </div>
         </article>
       </div>
@@ -261,18 +374,66 @@
       <div class="progress" aria-hidden="true"><span id="carouselProgress"></span></div>
     </section>
 
+    <!-- EDUCATION & MORE -->
+    <section id="education" class="section">
+      <div class="container">
+        <header class="section-head">
+          <p class="kicker">Education</p>
+          <h2>Where I studied</h2>
+        </header>
+        <div class="timeline">
+          <article class="job">
+            <p class="job-dates">Aug 2020 – Jun 2024</p>
+            <div class="job-card">
+              <h3>Bachelor of Engineering in Mechatronics Engineering</h3>
+              <p class="job-org">Chitkara University · Punjab, India</p>
+            </div>
+          </article>
+          <article class="job">
+            <p class="job-dates">Apr 2018 – Mar 2019</p>
+            <div class="job-card">
+              <h3>12th Computer Science</h3>
+              <p class="job-org">Indian School Muscat · Muscat, Oman</p>
+            </div>
+          </article>
+        </div>
+        <div class="skill-grid more-grid">
+          <article class="skill-card">
+            <h3>Languages</h3>
+            <ul class="chips"><li>English</li><li>Hindi</li></ul>
+          </article>
+          <article class="skill-card">
+            <h3>Beyond work</h3>
+            <ul class="chips">
+              <li>University-level sports: Volleyball, Athletics, Football</li>
+              <li>Competitive gaming events</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section id="contact" class="section">
       <div class="container">
-        <div class="contact-card">
-          <p class="kicker">Contact</p>
-          <h2>Let’s build something together.</h2>
-          <p class="contact-lead">Have a project, a role or just an idea? My inbox is open.</p>
-          <div class="actions actions--center">
-            <!-- TODO: replace with your real email, LinkedIn URL -->
-            <a class="btn btn--primary" href="mailto:hello@yourdomain.com">hello@yourdomain.com</a>
-            <a class="btn btn--ghost" href="#">LinkedIn</a>
-            <a class="btn btn--ghost" href="https://github.com/Harjodh9">GitHub</a>
+        <div class="contact-card electric-card">
+          <div class="eb-layers" aria-hidden="true">
+            <div class="eb-bg-glow"></div>
+            <div class="eb-overlay eb-overlay--1"></div>
+            <div class="eb-overlay eb-overlay--2"></div>
+            <div class="eb-line eb-line--glow-2"></div>
+            <div class="eb-line eb-line--glow-1"></div>
+            <div class="eb-line eb-line--main"></div>
+          </div>
+          <div class="contact-content">
+            <p class="kicker">Contact</p>
+            <h2>Let’s build something together.</h2>
+            <p class="contact-lead">Have a project, a role or just an idea? My inbox is open.</p>
+            <div class="actions actions--center">
+              <a class="btn btn--primary" href="mailto:harjodhreehal@gmail.com">harjodhreehal@gmail.com</a>
+              <a class="btn btn--ghost" href="https://www.linkedin.com/in/harjodh-singh-b98068270/" target="_blank" rel="noopener">LinkedIn</a>
+              <a class="btn btn--ghost" href="https://github.com/Harjodh9" target="_blank" rel="noopener">GitHub</a>
+            </div>
           </div>
         </div>
       </div>

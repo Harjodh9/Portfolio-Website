@@ -129,3 +129,31 @@
 
   update();
 })();
+
+/* ==========================================================================
+   Electric borders
+   - Contact card: only animate while it is on screen (the SVG filter is
+     expensive to repaint).
+   - Logo: small and cheap, so it always runs.
+   - Visitors who prefer reduced motion get no animation at all.
+   ========================================================================== */
+(function () {
+  var cardSvg = document.querySelector('.svg-filters--card');
+  var logoSvg = document.querySelector('.svg-filters--logo');
+  var card = document.querySelector('.contact-card.electric-card');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function pause(svg) { if (svg && svg.pauseAnimations) svg.pauseAnimations(); }
+  function play(svg) { if (svg && svg.unpauseAnimations) svg.unpauseAnimations(); }
+
+  if (reduce) { pause(cardSvg); pause(logoSvg); return; }
+
+  play(logoSvg);
+
+  if (!cardSvg || !card) return;
+  pause(cardSvg);
+  if (!('IntersectionObserver' in window)) { play(cardSvg); return; }
+  new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) play(cardSvg); else pause(cardSvg); });
+  }, { rootMargin: '100px' }).observe(card);
+})();
