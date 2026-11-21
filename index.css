@@ -124,6 +124,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* The electric glow layers are scaled up slightly and would cause sideways scrolling near the screen edge.
+   Clip them at the full-width <main> wrapper. (Not on body/html: that gets passed up to the viewport.) */
+main { overflow-x: clip; }
+
 h1, h2, h3, p, ul, dl, dd { margin: 0; }
 ul { padding: 0; list-style: none; }
 svg { display: block; flex: none; }
@@ -179,12 +183,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 .logo {
-  --logo-pad-y: 7px;   /* gap between the letters and the electric border */
-  --logo-pad-x: 13px;
+  --logo-size: 56px;   /* diameter of the circle; the electric border follows it */
+  --logo-font: 1.5rem;
   display: inline-flex;
   align-items: center;
-  padding: var(--logo-pad-y) var(--logo-pad-x);
-  font: 700 1.625rem/1 var(--font-display);
+  justify-content: center;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  font: 700 var(--logo-font)/1 var(--font-display);
   letter-spacing: -.02em;
   text-decoration: none;
 }
@@ -517,7 +523,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   text-align: center;
 }
 
-/* Electric border effect adapted from a CodePen by [AUTHOR NAME]: [PEN URL]
+/* Electric border effect adapted from a CodePen by Bálint Ferenczy, https://codepen.io/BalintFerenczy
    Changes: recolored with the palette accent, made responsive, lighter SVG filter.
    The wobbling line is the .eb-line--main layer (SVG filter in index.html). */
 .svg-filters { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -557,8 +563,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
   background: linear-gradient(-30deg, var(--electric-light), transparent, var(--electric));
 }
 
-/* Small version (the HS. logo): square-ish corners, tight wobble, smaller glows */
-.electric-card--sm { --electric-tint: color-mix(in srgb, var(--accent) 14%, transparent); border-radius: 12px; }
+/* Small version (the HS. logo): perfect circle, tight wobble, smaller glows */
+.electric-card--sm { --electric-tint: color-mix(in srgb, var(--accent) 14%, transparent); border-radius: 50%; }
 .electric-card--sm .eb-line--main { filter: url(#turbulent-displace-sm); }
 .electric-card--sm .eb-line--glow-1 { filter: blur(.5px); }
 .electric-card--sm .eb-line--glow-2 { filter: blur(2px); }
@@ -585,6 +591,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (max-width: 720px) {
   :root { --gutter: 24px; }
   .nav { min-height: 68px; }
+  .logo { --logo-size: 50px; --logo-font: 1.3rem; }
   .menu-btn { display: block; }
   .nav-cta { display: none; }
   .theme-toggle { --tw: 62px; --th: 34px; }
