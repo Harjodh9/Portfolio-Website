@@ -131,29 +131,23 @@
 })();
 
 /* ==========================================================================
-   Electric borders
-   - Contact card: only animate while it is on screen (the SVG filter is
-     expensive to repaint).
-   - Logo: small and cheap, so it always runs.
-   - Visitors who prefer reduced motion get no animation at all.
+   Electric border (contact card)
+   Only animate while the card is on screen (the SVG filter is expensive to
+   repaint), and not at all for visitors who prefer reduced motion.
    ========================================================================== */
 (function () {
-  var cardSvg = document.querySelector('.svg-filters--card');
-  var logoSvg = document.querySelector('.svg-filters--logo');
+  var svg = document.querySelector('.svg-filters--card');
   var card = document.querySelector('.contact-card.electric-card');
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!svg || !card || !svg.pauseAnimations) return;
 
-  function pause(svg) { if (svg && svg.pauseAnimations) svg.pauseAnimations(); }
-  function play(svg) { if (svg && svg.unpauseAnimations) svg.unpauseAnimations(); }
+  svg.pauseAnimations();
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) { svg.unpauseAnimations(); return; }
 
-  if (reduce) { pause(cardSvg); pause(logoSvg); return; }
-
-  play(logoSvg);
-
-  if (!cardSvg || !card) return;
-  pause(cardSvg);
-  if (!('IntersectionObserver' in window)) { play(cardSvg); return; }
   new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) play(cardSvg); else pause(cardSvg); });
+    entries.forEach(function (e) {
+      if (e.isIntersecting) svg.unpauseAnimations();
+      else svg.pauseAnimations();
+    });
   }, { rootMargin: '100px' }).observe(card);
 })();

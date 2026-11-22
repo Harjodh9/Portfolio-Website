@@ -183,19 +183,20 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 .logo {
-  --logo-size: 56px;   /* diameter of the circle; the electric border follows it */
+  --logo-size: 56px;   /* diameter of the circle */
   --logo-font: 1.5rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--logo-size);
   height: var(--logo-size);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
   font: 700 var(--logo-font)/1 var(--font-display);
   letter-spacing: -.02em;
   text-decoration: none;
 }
-.logo-text { position: relative; z-index: 1; }
-.logo-text span { color: var(--accent); }
+.logo span { color: var(--accent); }
 
 .nav-links { display: flex; gap: 36px; }
 .nav-links a {
@@ -480,6 +481,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
     repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--border-strong) 45%, transparent) 14px 15px),
     var(--surface-2);
 }
+.project-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .project-body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 14px; padding: 24px; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .project h3 { font: 700 1.5rem/1.2 var(--font-display); }
@@ -563,13 +565,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
   background: linear-gradient(-30deg, var(--electric-light), transparent, var(--electric));
 }
 
-/* Small version (the HS. logo): perfect circle, tight wobble, smaller glows */
-.electric-card--sm { --electric-tint: color-mix(in srgb, var(--accent) 14%, transparent); border-radius: 50%; }
-.electric-card--sm .eb-line--main { filter: url(#turbulent-displace-sm); }
-.electric-card--sm .eb-line--glow-1 { filter: blur(.5px); }
-.electric-card--sm .eb-line--glow-2 { filter: blur(2px); }
-.electric-card--sm .eb-overlay { filter: blur(6px); transform: none; }
-.electric-card--sm .eb-bg-glow { filter: blur(10px); transform: none; opacity: .35; }
 .contact-card .kicker { margin: 0; }
 .contact-card h2 { max-width: 14em; font-size: clamp(2.25rem, 5vw, 3.5rem); }
 .contact-lead { max-width: 32em; color: var(--text-muted); font-size: 1.125rem; }
@@ -578,6 +573,63 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* ---------- Footer ---------- */
 .site-footer { padding-block: 32px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: .875rem; }
 .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+/* ---------- Glass containers ----------
+   Clear glass: a faint white wash, blur, and a light edge. No color tint. */
+:root {
+  --glass-bg: light-dark(rgba(255, 255, 255, .55), rgba(255, 255, 255, .04));
+  --glass-glow: light-dark(rgba(255, 255, 255, .8), rgba(255, 255, 255, .12));
+  --glass-edge-a: light-dark(rgba(255, 255, 255, .95), rgba(255, 255, 255, .48));
+  --glass-edge-b: light-dark(rgba(18, 25, 30, .08), rgba(255, 255, 255, .08));
+  --glass-edge-c: light-dark(rgba(255, 255, 255, .95), rgba(255, 255, 255, .6));
+  --glass-shadow: light-dark(rgba(18, 25, 30, .07), rgba(0, 0, 0, .28));
+}
+
+.profile-card,
+.facts li,
+.skill-card,
+.job-card,
+.project {
+  position: relative;
+  background:
+    radial-gradient(47.2% 50% at 50.39% 88.37%, var(--glass-glow) 0%, rgba(255, 255, 255, 0) 100%),
+    var(--glass-bg);
+  border-color: transparent;
+  box-shadow: 0 8px 28px var(--glass-shadow);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* light edge drawn as a gradient border */
+.profile-card::before,
+.facts li::before,
+.skill-card::before,
+.job-card::before,
+.project::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(150deg, var(--glass-edge-a) 16.73%, var(--glass-edge-b) 30.2%, var(--glass-edge-b) 68.2%, var(--glass-edge-c) 81.89%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* "What I work with": the small containers inside the glass cards get a light tint, blur and a 1px emerald border */
+#skills .chips li {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid var(--accent);
+  color: var(--text);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+/* experiment: Soft Skills are rectangular like the "Contact me" button. The button's 12px radius on a 40px-tall button
+   is the same proportion as 8px on these ~28px-tall chips; 12px here would look like a pill again. */
+#skills .skill-card--soft .chips li { border-radius: 8px; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
@@ -623,6 +675,15 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .carousel-count { margin-right: auto; }
   .arrow-btn { width: 44px; height: 44px; }
   .footer-row { justify-content: center; text-align: center; }
+}
+
+/* Phones and touch screens: lighter filter, no blended overlays and no big blur layers,
+   so the border animates smoothly (blurred layers behind an animated filter are what makes phones lag) */
+@media (max-width: 720px), (pointer: coarse) {
+  .eb-line--main { filter: url(#turbulent-displace-lite); }
+  .eb-overlay { display: none; }
+  .eb-bg-glow { filter: none; opacity: .18; }
+  .eb-line--glow-2 { filter: none; box-shadow: 0 0 10px 1px var(--electric); }
 }
 
 @media (prefers-reduced-motion: reduce) {
