@@ -132,13 +132,34 @@
 
 /* ==========================================================================
    Electric border (contact card)
-   Only animate while the card is on screen (the SVG filter is expensive to
-   repaint), and not at all for visitors who prefer reduced motion.
+   - Keeps the noise animation matched to the card's real size. The border is drawn by shifting a
+     seamlessly repeating noise pattern by exactly the size of the filter area; if the card changes size
+     (window resized, buttons wrapping onto new lines) the distances are updated, so the pattern always
+     covers the whole card and the border never turns into a straight line.
+   - Only animates while the card is on screen, and not at all for visitors who prefer reduced motion.
    ========================================================================== */
 (function () {
   var svg = document.querySelector('.svg-filters--card');
   var card = document.querySelector('.contact-card.electric-card');
   if (!svg || !card || !svg.pauseAnimations) return;
+
+  // The filter area is 110% of the card (see x/y/width/height in index.html)
+  var AREA = 1.1;
+
+  function syncOffsets() {
+    var w = card.offsetWidth * AREA;
+    var h = card.offsetHeight * AREA;
+    if (!w || !h) return;
+    [].forEach.call(svg.querySelectorAll('animate'), function (a) {
+      var size = Math.round(a.getAttribute('attributeName') === 'dy' ? h : w);
+      var reverse = (a.getAttribute('values') || '').replace(/\s/g, '').indexOf('0;') === 0;
+      a.setAttribute('values', reverse ? '0; -' + size : size + '; 0');
+    });
+  }
+
+  syncOffsets();
+  if ('ResizeObserver' in window) new ResizeObserver(syncOffsets).observe(card);
+  else window.addEventListener('resize', syncOffsets);
 
   svg.pauseAnimations();
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;

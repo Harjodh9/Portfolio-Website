@@ -39,47 +39,42 @@
   <!-- Filter for the contact card's electric border (index.css, .eb-line--main) -->
   <svg class="svg-filters svg-filters--card" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
+      <!-- stitchTiles makes the noise repeat seamlessly; index.js sets the offset distances to the card's
+           real size (so the two shifted copies always cover the whole card, whatever size the screen is). -->
       <filter id="turbulent-displace" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
-        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" result="noise1" seed="1" />
-        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise1">
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" stitchTiles="stitch" result="noiseV" seed="1" />
+        <feOffset in="noiseV" dx="0" dy="0" result="offsetV1">
           <animate attributeName="dy" values="700; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
         </feOffset>
-
-        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" result="noise2" seed="1" />
-        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise2">
+        <feOffset in="noiseV" dx="0" dy="0" result="offsetV2">
           <animate attributeName="dy" values="0; -700" dur="6s" repeatCount="indefinite" calcMode="linear" />
         </feOffset>
 
-        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" result="noise1" seed="2" />
-        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise3">
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" stitchTiles="stitch" result="noiseH" seed="2" />
+        <feOffset in="noiseH" dx="0" dy="0" result="offsetH1">
           <animate attributeName="dx" values="490; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
         </feOffset>
-
-        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="5" result="noise2" seed="2" />
-        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise4">
+        <feOffset in="noiseH" dx="0" dy="0" result="offsetH2">
           <animate attributeName="dx" values="0; -490" dur="6s" repeatCount="indefinite" calcMode="linear" />
         </feOffset>
 
-        <feComposite in="offsetNoise1" in2="offsetNoise2" result="part1" />
-        <feComposite in="offsetNoise3" in2="offsetNoise4" result="part2" />
+        <feComposite in="offsetV1" in2="offsetV2" result="part1" />
+        <feComposite in="offsetH1" in2="offsetH2" result="part2" />
         <feBlend in="part1" in2="part2" mode="color-dodge" result="combinedNoise" />
 
         <feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="24" xChannelSelector="R" yChannelSelector="B" />
       </filter>
 
-      <!-- Lighter version used on phones / touch screens (2 noise layers instead of 4, fewer octaves) -->
+      <!-- Lighter version used on phones / touch screens / narrow windows (one noise layer, vertical flow) -->
       <filter id="turbulent-displace-lite" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
-        <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="2" result="noiseA" seed="1" />
-        <feOffset in="noiseA" dx="0" dy="0" result="offsetA">
+        <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="2" stitchTiles="stitch" result="noise" seed="1" />
+        <feOffset in="noise" dx="0" dy="0" result="offsetA">
           <animate attributeName="dy" values="700; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
         </feOffset>
-
-        <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="2" result="noiseB" seed="2" />
-        <feOffset in="noiseB" dx="0" dy="0" result="offsetB">
-          <animate attributeName="dx" values="490; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        <feOffset in="noise" dx="0" dy="0" result="offsetB">
+          <animate attributeName="dy" values="0; -700" dur="6s" repeatCount="indefinite" calcMode="linear" />
         </feOffset>
-
-        <feBlend in="offsetA" in2="offsetB" mode="color-dodge" result="combinedNoise" />
+        <feComposite in="offsetA" in2="offsetB" result="combinedNoise" />
         <feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="18" xChannelSelector="R" yChannelSelector="B" />
       </filter>
     </defs>
@@ -176,22 +171,22 @@
           <h2>What I work with</h2>
         </header>
         <div class="skill-grid">
-          <article class="skill-card">
+          <article class="skill-card skill-card--solid">
             <h3>Automation &amp; Control</h3>
-            <ul class="chips">
+            <ul class="chips chips--accent">
               <li>PLC Programming</li><li>Sensors</li><li>IoT Fundamentals</li>
             </ul>
           </article>
           <article class="skill-card">
             <h3>Tools &amp; Platforms</h3>
-            <ul class="chips">
+            <ul class="chips chips--accent">
               <li>Python</li><li>C/C++</li><li>Microsoft Office</li><li>Odoo ERP</li>
               <li>Fusion 360</li><li>SolidWorks</li><li>CNC Programming</li><li>Ultimaker Cura</li>
             </ul>
           </article>
-          <article class="skill-card skill-card--soft">
+          <article class="skill-card skill-card--solid">
             <h3>Soft Skills</h3>
-            <ul class="chips">
+            <ul class="chips chips--glass">
               <li>Adaptability</li><li>Teamwork</li><li>Discipline</li><li>Critical Thinking</li>
               <li>Active Listening</li><li>Problem Solving</li><li>Attention to Detail</li>
             </ul>
@@ -373,11 +368,11 @@
         <div class="skill-grid more-grid">
           <article class="skill-card">
             <h3>Languages</h3>
-            <ul class="chips"><li>English</li><li>Hindi</li></ul>
+            <ul class="chips chips--glass"><li>English</li><li>Hindi</li></ul>
           </article>
           <article class="skill-card">
             <h3>Beyond work</h3>
-            <ul class="chips">
+            <ul class="chips chips--glass">
               <li>University-level sports: Volleyball, Athletics, Football</li>
               <li>Competitive gaming events</li>
             </ul>
@@ -391,9 +386,6 @@
       <div class="container">
         <div class="contact-card electric-card">
           <div class="eb-layers" aria-hidden="true">
-            <div class="eb-bg-glow"></div>
-            <div class="eb-overlay eb-overlay--1"></div>
-            <div class="eb-overlay eb-overlay--2"></div>
             <div class="eb-line eb-line--glow-2"></div>
             <div class="eb-line eb-line--glow-1"></div>
             <div class="eb-line eb-line--main"></div>
